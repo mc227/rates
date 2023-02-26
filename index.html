@@ -188,41 +188,76 @@ function realTimeLineChart() {
     }
 
     function seedData() {
-        fetch('http://127.0.0.1:5000/api/data')
-            .then(response => response.json())
-            .then(data => {
-                var now = new Date();
+    fetch('http://127.0.0.1:5000/api/data')
+        .then(response => response.json())
+        .then(data => {
+            var now = new Date();
             for (var i = 0; i < MAX_LENGTH; ++i) {
-                lineArr.push({
-                time: new Date(now.getTime() - ((MAX_LENGTH - i) * duration)),
-                x: data.x,
-                y: data.y,
-                z: data.z
+                var lineData = { time: new Date(now.getTime() - ((MAX_LENGTH - i) * duration)) };
+                Object.keys(data).forEach(key => {
+                    lineData[key] = data[key];
                 });
-            }
-            })
-            .catch(error => console.error(error));
-        }
-        function updateData() {
-            fetch('http://127.0.0.1:5000/api/data')
-                .then(response => response.json())
-                .then(data => {
-                var now = new Date();
-                var lineData = {
-                    time: now,
-                    x: data.x,
-                    y: data.y,
-                    z: data.z
-                };
                 lineArr.push(lineData);
-
-                if (lineArr.length > 30) {
-                    lineArr.shift();
-                }
-                d3.select("#chart").datum(lineArr).call(chart);
-                })
-                .catch(error => console.error(error));
             }
+        })
+        .catch(error => console.error(error));
+}
+
+function updateData() {
+    fetch('http://127.0.0.1:5000/api/data')
+        .then(response => response.json())
+        .then(data => {
+            var now = new Date();
+            var lineData = { time: now };
+            Object.keys(data).forEach(key => {
+                lineData[key] = data[key];
+            });
+            lineArr.push(lineData);
+
+            if (lineArr.length > 30) {
+                lineArr.shift();
+            }
+            d3.select("#chart").datum(lineArr).call(chart);
+        })
+        .catch(error => console.error(error));
+}
+
+    // function seedData() {
+    //     fetch('http://127.0.0.1:5000/api/data')
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             var now = new Date();
+    //         for (var i = 0; i < MAX_LENGTH; ++i) {
+    //             lineArr.push({
+    //             time: new Date(now.getTime() - ((MAX_LENGTH - i) * duration)),
+    //             x: data.x,
+    //             y: data.y,
+    //             z: data.z
+    //             });
+    //         }
+    //         })
+    //         .catch(error => console.error(error));
+    //     }
+    //     function updateData() {
+    //         fetch('http://127.0.0.1:5000/api/data')
+    //             .then(response => response.json())
+    //             .then(data => {
+    //             var now = new Date();
+    //             var lineData = {
+    //                 time: now,
+    //                 x: data.x,
+    //                 y: data.y,
+    //                 z: data.z
+    //             };
+    //             lineArr.push(lineData);
+
+    //             if (lineArr.length > 30) {
+    //                 lineArr.shift();
+    //             }
+    //             d3.select("#chart").datum(lineArr).call(chart);
+    //             })
+    //             .catch(error => console.error(error));
+    //         }
             function resize() {
                 if (d3.select("#chart svg").empty()) {
                     return;
