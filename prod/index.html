@@ -2,7 +2,8 @@
 <html>
 <head>
     <title>Rates</title>
-    <script src="https://d3js.org/d3.v7.min.js" charset="utf-8"></script>
+    <!-- <script src="https://d3js.org/d3.v7.min.js" charset="utf-8"></script> -->
+    <script src="d3.v7.min.js" charset="utf-8"></script>
     <style type="text/css">
     body {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -71,6 +72,16 @@ function realTimeLineChart() {
                 .y(function(d) { return y(d.value); });
   
             var svg = d3.select(this).selectAll("svg").data([data]);
+
+            const options1 = { width: width, height: height, title: "packetsPerSec" };
+
+            svg.append("text")
+            .attr("x", options1.width / 2)
+            .attr("y", 20)
+            .attr("text-anchor", "middle")
+            .attr("font-size", "20px")
+            .text(options1.title);
+
             var gEnter = svg.enter().append("svg").append("g");
             gEnter.append("g").attr("class", "axis x");
             gEnter.append("g").attr("class", "axis y");
@@ -230,7 +241,17 @@ function realTimeLineChart() {
                 .x(function(d) { return x(d.time); })
                 .y(function(d) { return y(d.value); });
   
+            
             var svg = d3.select(this).selectAll("svg").data([data]);
+            const options1 = { width: width, height: height, title: "bytesPerSec" };
+
+            svg.append("text")
+            .attr("x", options1.width / 2)
+            .attr("y", 20)
+            .attr("text-anchor", "middle")
+            .attr("font-size", "20px")
+            .text(options1.title);
+
             var gEnter = svg.enter().append("svg").append("g");
             gEnter.append("g").attr("class", "axis x");
             gEnter.append("g").attr("class", "axis y");
