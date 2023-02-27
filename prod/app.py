@@ -21,7 +21,7 @@ data = {
   },
   "eth2": {
     "packetsPerSec": 0.667,
-    "bytesPerSec": 191.667
+    "bytesPerSec": 91.667
   }
 }
 
@@ -35,6 +35,9 @@ def update_data():
         data['eth0']["packetsPerSec"] = random.randint(0, 100)
         data['eth1']["packetsPerSec"] = random.randint(0, 100)
         data['eth2']["packetsPerSec"] = random.randint(0, 100)
+        data['eth0']["bytesPerSec"] = random.randint(0, 100)
+        data['eth1']["bytesPerSec"] = random.randint(0, 100)
+        data['eth2']["bytesPerSec"] = random.randint(0, 100)
         time.sleep(10)  # Wait for 1 seconds before updating again
 
 # Start the timer to update the data object
